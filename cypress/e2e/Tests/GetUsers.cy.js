@@ -4,52 +4,52 @@
 
 describe('This suite will test Get Requests', ()=> {
 
-  beforeEach(()=> {
+beforeEach(()=> {
 
 cy.request('Get', 'https://reqres.in/api/users/').as('getRequest')
 
-  })
+})
 
-  before(()=> {
+before(()=> {
 
 cy.readFile('cypress/fixtures/allUsers.json').then((res)=> {
 
-  allUsers = res;
+allUsers = res;
 
 })
 
 
 
-  })
+})
 
 let allUsers;
 
 const bodyResponseUser2 = { //multi json object
-  "data": {
-      "id": 2,
-      "email": "janet.weaver@reqres.in",
-      "first_name": "Janet",
-      "last_name": "Weaver",
-      "avatar": "https://reqres.in/img/faces/2-image.jpg"
-  },
-  "support": {
-      "url": "https://reqres.in/#support-heading",
-      "text": "To keep ReqRes free, contributions towards server costs are appreciated!"
-  }
+"data": {
+    "id": 2,
+    "email": "janet.weaver@reqres.in",
+    "first_name": "Janet",
+    "last_name": "Weaver",
+    "avatar": "https://reqres.in/img/faces/2-image.jpg"
+},
+"support": {
+    "url": "https://reqres.in/#support-heading",
+    "text": "To keep ReqRes free, contributions towards server costs are appreciated!"
+}
 };  
 
 let dataresult = { //single json object
-      "id": 2,
-      "email": "janet.weaver@reqres.in",
-      "first_name": "Janet",
-      "last_name": "Weaver",
-      "avatar": "https://reqres.in/img/faces/2-image.jpg"
-  };
+    "id": 2,
+    "email": "janet.weaver@reqres.in",
+    "first_name": "Janet",
+    "last_name": "Weaver",
+    "avatar": "https://reqres.in/img/faces/2-image.jpg"
+};
 
 it('Get request Test/Assertion : Using then command', function(){
 
 cy.request({
-  
+
 method : 'Get',
 url : 'https://reqres.in/api/users/2'
 
@@ -85,16 +85,16 @@ cy.request('Get', 'https://reqres.in/api/users/2')
 
 it('Get request Test/Assertion with single json object : Using then command', ()=> {
 
-  cy.request({
+cy.request({
 
-    method: 'Get',
-    url : 'https://reqres.in/api/users/2',
+  method: 'Get',
+  url : 'https://reqres.in/api/users/2',
 
-  }).then((res) => {
-  
-  expect(res.body.data).to.include(dataresult);
-  
-  })
+}).then((res) => {
+
+expect(res.body.data).to.include(dataresult);
+
+})
 
 })
 
@@ -125,50 +125,69 @@ expect(res.status).to.eq(200)
 
 it('Get request Test/Assertion: Response Headers and values', ()=> {
 
-  cy.get('@getRequest').then((res)=> {
-  
-  expect(res.headers.server).to.eq('cloudflare');
-  expect(res.headers.vary).to.eq('Accept-Encoding');
- 
-  
-  
-  })
-  
-  })
+cy.get('@getRequest').then((res)=> {
+
+expect(res.headers.server).to.eq('cloudflare');
+expect(res.headers.vary).to.eq('Accept-Encoding');
+
+
+
+})
+
+})
 
 
 
 it('Get request Test/Assertion: Response Headers and values using its', ()=> {
 
-  cy.get('@getRequest')
-  
-  .its('headers.server').should('eq', 'cloudflare')
- 
+cy.get('@getRequest')
+
+.its('headers.server').should('eq', 'cloudflare')
+
 })
 
 it('Get request Test/Assertion: Response Headers and values where there is DASH (-) in header', ()=> {
 
-  cy.get('@getRequest')
-  
-  .its('headers.content-encoding').should('eq', 'gzip')
- 
+cy.get('@getRequest')
+
+.its('headers.content-encoding').should('eq', 'gzip')
+
 })
 
 it('Get request Test from JSON file - Reading data or body to assert from Json file', ()=> {
 
-  cy.request({
+cy.request({
 
-    method: 'Get',
-    url: 'https://reqres.in/api/users/'
-  
-  }).then((res)=> {
-  
-    expect(res.body).to.deep.eq(allUsers);
-  
-  })
+  method: 'Get',
+  url: 'https://reqres.in/api/users/'
+
+}).then((res)=> {
+
+  expect(res.body).to.deep.eq(allUsers);
+
+})
+})
 
 
 
+it('Checking the schema, each value of every json object should have all the keys', ()=> {
+
+cy.get('@getRequest').its('body.data')
+.each(value => {
+
+expect(value).to.have.all.keys('id', 'email', 'first_name', 'last_name', 'avatar')
+
+
+})
+
+})
+
+
+it('Testing that response should have property headers', ()=> {
+
+cy.get('@getRequest').then((res) => {
+
+expect(res).to.have.property('headers');
 
 
 })
@@ -177,6 +196,10 @@ it('Get request Test from JSON file - Reading data or body to assert from Json f
 
 
 })
+
+})
+
+
 
 
 
