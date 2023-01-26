@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dashboard": "npx cypress run -b chrome --headless --record --key d870ea87-9364-4a64-bb04-326f72180907"
   },
   "keywords": [],
   "author": "",
