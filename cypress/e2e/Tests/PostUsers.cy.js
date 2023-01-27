@@ -99,11 +99,15 @@ it('post request test using expect with property', ()=>{
 
  }).then((res)=> {
 
+    const userid = res.body.id; // stroring id in a constant so that we can call a get function for the same id and verify the id in resposne. we will append user id as an endpoint in the url
+    cy.log('Id of the post call is ' + userid);
+
 cy.log(JSON.stringify(res));    
 expect(res.body).to.have.property('name', 'Aruna')
 expect(res.body).to.have.property('job', 'Balraj')
 
  })
+ 
 
 })
 
@@ -119,7 +123,10 @@ it('post request test : Test for headers in repsonse of post request', ()=>{
            "job": "Balraj"
        }
    
-    }).its('headers.content-length').should('deep.eq', '81');
+    }).its('body').should('include', {
+        "name": "Aruna",
+        "job": "Balraj"
+    })
 
     })
 
