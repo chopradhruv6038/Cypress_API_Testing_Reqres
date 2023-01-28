@@ -23,19 +23,19 @@ cy.request({
 
 }).then((res)=> {
 
-const bodyid = res.body.id;
+   cy.log(JSON.stringify(res));
 
-return bodyid;
+expect(res.body).to.include(jsonData);
 
-}).then((bodyid)=> {
+const userid = res.body.id;
 
-    cy.log('Id of the user is ', + bodyid)
+cy.log('Id of the user is ', + userid)
+
 
 cy.request({
 
     method: 'DELETE',
-    url : 'https://reqres.in/api/users/' + bodyid
-
+    url : 'https://reqres.in/api/users/' + userid
 
 }).then((respon)=> {
 
@@ -49,15 +49,6 @@ expect(respon.status).eq(204);
 
 
 })
-
-
-
-
-
-
-
-
-
 
 })
 
