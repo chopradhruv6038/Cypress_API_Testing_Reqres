@@ -5,7 +5,7 @@ describe('This suite will test post and put request chaining', ()=> {
 
 it('Post and Put request chaining test', ()=> {
 
-cy.request({
+cy.request({ // doing a post request.
 
     method: 'POST',
     url : 'https://reqres.in/api/users/',
@@ -16,13 +16,17 @@ cy.request({
 
 }).then((res)=> {
 
+    expect(res.body.job).to.eq('manager');
+
 const resBody = res.body.id;
 
 return resBody;
 
+
+
 }).then((resBody)=> {
 
-cy.request({
+cy.request({  //updating the job via put call
 
     method : 'PUT',
     body : {
@@ -41,9 +45,6 @@ expect(resp.body.job).to.eq('CEO')
 
 
 })
-
-
-
 
 })
 
