@@ -1,5 +1,17 @@
 describe('This suite will test POST & PUT request in chaining', ()=> {
 
+let jsonData;
+
+    before('Before Block', ()=>{
+
+cy.readFile('cypress/fixtures/singlePostUser.json').then((res)=> {
+
+    jsonData = res;
+
+
+})
+    })
+
 
 it('POST & PUT Requests Tests', ()=> {
 
@@ -7,24 +19,17 @@ cy.request({
 
     method: 'POST',
     url: 'https://reqres.in/api/users/',
-    body: {
-        "name": "Balraj",
-        "job": "Tim Hortons manager"
-    }
+    body: jsonData
 
 }).then((res)=> {
 
 const bodyid = res.body.id;
 
-
-
 return bodyid;
-
-
 
 }).then((bodyid)=> {
 
-    cy.log('id of the use is ' + bodyid)
+    cy.log('Id of the user is ', + bodyid)
 
 cy.request({
 
@@ -37,25 +42,10 @@ cy.request({
 expect(respon.status).eq(204);
 
 
-
-
-
-
 })
 
 
-
-
-
-
-
 })
-
-
-
-
-
-
 
 
 })
@@ -69,8 +59,6 @@ expect(respon.status).eq(204);
 
 
 
-
-
-
-
 })
+
+
